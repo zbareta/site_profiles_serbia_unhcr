@@ -12,12 +12,13 @@
 
 <html lang="en">
 	<head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 		<!-- 
 		Getting data from the kobo.unhcr.org API. Enter your USERNAME, PASSWORD and API LINK
 		-->
 		<?php
-		$username = "user";
-		$password = "pass";
+		$username = "bareta";
+		$password = "m1nstr3l";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
@@ -36,7 +37,7 @@
 
 		//Storing HTML table columns (traffic lights) in PHP variables that will be displayed based on data pulled from KoBo
 		//the webdings font is used for displaying traffic lights (https://en.wikipedia.org/wiki/Webdings)
-		$traffic_yellow = "<td style='width:10;font-family: webdings; font-size: 10; color: yellow'>g</td>";
+		$traffic_yellow = "<td style='width:10;font-family: webdings; font-size: 10; color: #FAEB00 '>g</td>";
 		$traffic_red = "<td style='width:10;font-family: webdings; font-size: 10; color: red'>g</td>";
 		$traffic_green = "<td style='width:10;font-family: webdings; font-size: 10; color: green'>g</td>";
 		$traffic_gray = "<td style='width:10;font-family: webdings; font-size: 10; color: gray'>g</td>";
@@ -218,7 +219,7 @@
 
 	        var options = {
 	          title: 'Age/Gender Breakdown',
-	          colors: ['#0c73bb', '#225893', '#d9d9d9']
+	          colors: ['#0072BC', '#338EC9', '#99C7E4']
 	        };
 
 	        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -243,7 +244,7 @@
 
 	        var options = {
 	          title: 'UASC/Other Children',
-	          colors: ['#0c73bb', '#225893', '#d9d9d9'],
+	          colors: ['#0072BC', '#338EC9'],
 	          pieHole: 0.4,
 	        };
 
@@ -274,7 +275,8 @@
 	        ]);
 
 	        var options = {
-	       	colors: ['#d9d9d9', '#0c73bb', '#225893']};
+	       	datalessRegionColor: '#CCE3F2',
+	       	colors: ['#99C7E4','#0072BC']};
 
 	        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
@@ -304,9 +306,10 @@
 		      ]);
 
 		      var options = {
+		      	datalessRegionColor: '#CCE3F2',
 		        region: 'RS',
-		        displayMode: 'markers',
-		        defaultColor: '#0c73bb'
+		        displayMode: 'marker',
+		        defaultColor: '#0072BC'
 		      };
 
 		      var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
@@ -320,7 +323,7 @@
 		This is the HTML form (search box) that takes your input which is used to get the $locationIN (explained above... PHP code checking if something was POSTed)
 		-->
 		<div align="center">
-			<table style="font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 14;">
+			<table style="font-family: 'Lato', sans-serif; font-size: 14;">
 				<tr>
 					<td colspan="3">
 					<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -332,7 +335,7 @@
 								<option value="Adasevci" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Adasevci') echo ' selected="selected"';?>>Adasevci TC</option>
 								<option value="Banja Koviljaca" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Banja Koviljaca') echo ' selected="selected"';?>>Banja Koviljaca AC</option>
 							</select>
-							<input type="submit" name="submit" value="Select" style="background-color: #0c73bb; color: white; border: 0"></div>
+							<input type="submit" name="submit" value="Select" style="background-color: #0072BC; color: white; border: 0"></div>
 						</form>
 					</td>
 				</tr>
@@ -341,59 +344,59 @@
 		The header logo is pulled from the local unhcr_logo.png file, but it can be refferenced from the web
 		The rest is a HTML table that gets data from the location array pulled from kobo, based on the locationId (obtained by comparing the location name from the array with the search box)
 		-->
-				 	<td colspan="5" style="background-color: #0c73bb ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold; color: white; text-align: left; height: 70"><img src="unhcr_logo.png" alt="UNHCR Serbia" style="height:70;"><div style="text-align: right;"></div></td>
-				 	<td colspan="4" rowspan="9" width="100" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: gray; text-align: TOP-left; height: 12; vertical-align: top;"><div id="chart_div" style="width: 100%;></div></div></td>
+				 	<td colspan="5" style="background-color: #0072BC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold; color: white; text-align: left; height: 70"><img src="unhcr_logo.png" alt="UNHCR Serbia" style="height:70;"><div style="text-align: right;"></div></td>
+				 	<td colspan="4" rowspan="9" width="100" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: gray; text-align: TOP-left; height: 14; vertical-align: top;"><div id="chart_div" style="width: 100%;></div></div></td>
 				</tr>
 				<tr style="height: 16">
 				</tr> 
 				<tr>
-					<td colspan="5" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 30; font-weight: bold; color: black; text-align: left; height: 30"><?php echo strtoupper($locations[$locationId]['GENERAL_INFO/Location_Name'] . " " . $locations[$locationId]['GENERAL_INFO/Type'])?></td>
+					<td colspan="5" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 30; font-weight: bold; color: black; text-align: left; height: 30"><?php echo strtoupper($locations[$locationId]['GENERAL_INFO/Location_Name'] . " " . $locations[$locationId]['GENERAL_INFO/Type'])?></td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: black; text-align: left; height: 12">Focal Point:</td>
-					<td colspan="3" rowspan="5" width="100" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: gray; text-align: right; height: 12; vertical-align: top;">
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14">Focal Point:</td>
+					<td colspan="3" rowspan="5" width="100" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: #666666; text-align: right; height: 14; vertical-align: top;">
 						<?php echo strtoupper ($locations[$locationId]['GENERAL_INFO/Function_Type_of_Building']);?>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: left; height: 12"><?php echo $locations[$locationId]['GENERAL_INFO/Location_Focal_Point']?></td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: left; height: 14"><?php echo $locations[$locationId]['GENERAL_INFO/Location_Focal_Point']?></td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: black; text-align: left; height: 12">Phone Number:</td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14">Phone Number:</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: left; height: 12"><?php echo $locations[$locationId]['GENERAL_INFO/Focal_Point_Phone']?></td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: left; height: 14"><?php echo $locations[$locationId]['GENERAL_INFO/Focal_Point_Phone']?></td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: black; text-align: left; height: 12">Authority/Mgmt.:</td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14">Authority/Mgmt.:</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: left; height: 12"><?php echo $locations[$locationId]['GENERAL_INFO/Managed_by']?></td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: left; height: 14"><?php echo $locations[$locationId]['GENERAL_INFO/Managed_by']?></td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: left; height: 12"></td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: left; height: 14"></td>
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: black; text-align: left; height: 12">Property of:</td>
-					<td colspan="5" rowspan="2" width="100" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: gray; text-align: TOP-left; height: 12; vertical-align: top;">
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14">Property of:</td>
+					<td colspan="5" rowspan="2" width="100" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: #666666; text-align: TOP-left; height: 14; vertical-align: top;">
 					<?php
 					echo $locations[$locationId]['GENERAL_INFO/Centre_Phone_Number'];?></br><?php
 					echo $locations[$locationId]['GENERAL_INFO/Centre_e_mail_Address'];?></br><?php
 					echo $locations[$locationId]['GENERAL_INFO/Centre_Address']
 					?>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: left; height: 12; vertical-align: top;"><?php echo $locations[$locationId]['GENERAL_INFO/Property_of']?>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: left; height: 14; vertical-align: top;"><?php echo $locations[$locationId]['GENERAL_INFO/Property_of']?>
 						
 					</td>
 				</tr>
 				<tr>
-					<td colspan="5" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14; color: #225893"><?php echo $locations[$locationId]['GENERAL_INFO/Latitude']?>, <?php echo $locations[$locationId]['GENERAL_INFO/Longitude']?></td>
+					<td colspan="5" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14; color: #0072BC"><?php echo $locations[$locationId]['GENERAL_INFO/Latitude']?>, <?php echo $locations[$locationId]['GENERAL_INFO/Longitude']?></td>
 
 				</tr>
 				<tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: gray; text-align: left; height: 12"><strong><?php echo $locations[$locationId]['GENERAL_INFO/Distance_from_Belgrade']?>km</strong> AWAY FROM BELGRADE</td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: #666666; text-align: left; height: 14"><strong><?php echo $locations[$locationId]['GENERAL_INFO/Distance_from_Belgrade']?>km</strong> AWAY FROM BELGRADE</td>
 				</tr>
-					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: gray; text-align: left; height: 12"><strong><?php echo $locations[$locationId]['GENERAL_INFO/Distance_from_Public_Services']?>km</strong> AWAY FROM PUBLIC SERVICES</td>
+					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; color: #666666; text-align: left; height: 14"><strong><?php echo $locations[$locationId]['GENERAL_INFO/Distance_from_Public_Services']?>km</strong> AWAY FROM PUBLIC SERVICES</td>
 				</tr>
 				<tr>
 				<!--
@@ -411,12 +414,12 @@
 
 					$ocuPercent = ($locations[$locationId]['GENERAL_INFO/Occupancy'])*100/($locations[$locationId]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p']);
 					if ($ocuPercent <= 100){echo $traffic_green;}
-					elseif (($ocuPercent > 100) AND ($ocuPercent <= 120)) {echo $traffic_yellow;}
-					elseif ($ocuPercent > 120) {echo $traffic_red;}
+					elseif (($ocuPercent > 100) AND ($ocuPercent <= 140)) {echo $traffic_yellow;}
+					elseif ($ocuPercent > 140) {echo $traffic_red;}
 					else {echo $traffic_red;}
 					?></td>
-			 		<td colspan="4" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 20; font-weight: bold;">OCCUPANCY/CAPACITY:</td>
-			 		<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 20; font-weight: bold; text-align: right">
+			 		<td colspan="4" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 20; font-weight: bold;">OCCUPANCY/CAPACITY:</td>
+			 		<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 20; font-weight: bold; text-align: right">
 			 		<?php
 			 		echo $locations[$locationId]['GENERAL_INFO/Occupancy'];?>/<?php
 			 		echo $locations[$locationId]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p']
@@ -427,13 +430,13 @@
 			 		<td colspan="7" style="background-color: black ; height: 5"></td>
 				</tr>
 				<tr>
-					<td colspan="7" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 14; font-weight: bold;"></td>	
+					<td colspan="7" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold;"></td>	
 				</tr>
 				<tr>
-					<td colspan="7" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 14; font-weight: bold;">Top Countries of Origin:</td>	
+					<td colspan="7" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold;">Top Countries of Origin:</td>	
 				</tr>
 				<tr>
-			 		<td colspan="7" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12;">
+			 		<td colspan="7" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14;">
 			 			<table>
 			 				<tr>
 			 				<div id="regions_div" style="width: 800px; height: 500px;"></div>
@@ -446,9 +449,9 @@
 			 		</td>
 			 	</tr>
 			 	<tr>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">SHELTER:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">SHELTER:</td>
 			   		<td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">SAFETY & SECURITY:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">SAFETY & SECURITY:</td>
 			 	</tr> 
 			 	<tr style="height: 16">
 			 	</tr> 
@@ -456,8 +459,8 @@
 				    <?php
 				    	$q_answer = $locations[$locationId]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p'];
 					    if ($ocuPercent <= 100){echo $traffic_green;}
-						elseif (($ocuPercent > 100) AND ($ocuPercent <= 120)) {echo $traffic_yellow;}
-						elseif ($ocuPercent > 120) {echo $traffic_red;}
+						elseif (($ocuPercent > 100) AND ($ocuPercent <= 140)) {echo $traffic_yellow;}
+						elseif ($ocuPercent > 140) {echo $traffic_red;}
 						else {echo $traffic_red;}
 					?>
 				    <td style="width: 300">#places per 4.5-5.5 m2/p: </td> 
@@ -614,12 +617,12 @@
 				    <td style="width: 300"></td> 
 				    <td style="width: 60"></td>
 				    <td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">FOOD & NFIs:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">FOOD & NFIs:</td>
 			 	</tr>
 			 	<tr style="height: 16">
 			 	</tr> 
 			 	<tr >
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">WASH:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">WASH:</td>
 			 		<td style="width: 40"></td>
 			 		<?php
 				    	$q_answer = $locations[$locationId]['FOOD_NFI/Adequate_Cooking_Dining_Space'];
@@ -757,7 +760,7 @@
 				    <td style="width: 300">Drinking water available:</td> 
 				    <td style="width: 60; font-weight: bold;"><?php echo ucwords($q_answer)?></td>
 				    <td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">HEALTH:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">HEALTH:</td>
 			 	</tr>
 			 	<tr>
 				    <?php
@@ -884,9 +887,9 @@
 			 	<tr style="height: 16">
 			 	</tr> 
 			 	<tr>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">EDUCATION & LEISURE:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">EDUCATION & LEISURE:</td>
 			   		<td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">CHILD PROTECTION:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">CHILD PROTECTION:</td>
 			 	</tr> 
 			 	<tr style="height: 16">
 			 	</tr>
@@ -1137,7 +1140,7 @@
 				    <td style="width: 60; font-weight: bold;"><?php echo ucwords($q_answer)?></td>
 			 	</tr>
 			 	<tr>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">COMMUNICATION:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">COMMUNICATION:</td>
 				    <td style="width: 40"></td>
 				    <td style="width:10;font-family: webdings; font-size: 10"></td>
 				    <td style="width: 300"></td> 
@@ -1148,7 +1151,7 @@
 				    <td style="width: 300"></td> 
 				    <td style="width: 60"></td>
 				    <td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">ASYLUM & IDENTIFICATION:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">ASYLUM & IDENTIFICATION:</td>
 			 	<tr>			    <?php
 				    	$q_answer = $locations[$locationId]['COMMUNICATION/Private_Rooms_for_Counselling'];
 					    if ($q_answer == "partially"){echo $traffic_yellow;}
@@ -1296,9 +1299,9 @@
 				    <td style="width: 300"></td> 
 				    <td style="width: 60"></td>
 				    <td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">COORDINATION & MGMT.:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">COORDINATION & MGMT.:</td>
 			 	<tr >
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">PSNs:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">PSNs:</td>
 			 		<td style="width: 40"></td>
 			 		<td style="width:10;font-family: webdings; font-size: 10"></td>
 				    <td style="width: 300"></td> 
@@ -1414,13 +1417,13 @@
 				    <td style="width: 300"></td> 
 				    <td style="width: 60"></td>
 				    <td style="width: 40"></td>
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">FREEDOM OF MOVEMENT:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">FREEDOM OF MOVEMENT:</td>
 			 	<tr >
 			 	</tr> 
 			 	<tr style="height: 16">
 			 	</tr>
 			 	<tr >
-			 		<td colspan="3" style="background-color: D1D2D4 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold;">FAMILY UNITY:</td>
+			 		<td colspan="3" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold;">FAMILY UNITY:</td>
 			 		<td style="width: 40"></td>
 			 		<?php
 				    	$q_answer = $locations[$locationId]['FREEDOM_MOVEMENT/Permits_Required_to_e_Outside_the_Centre'];
@@ -1513,49 +1516,49 @@
 				This is the 3W section. It doesnt use traffic lights, it simply displays the data provided from KoBo in a table
 			 	-->
 			 	<tr>
-			 		<td colspan="7" style="background-color: #0c73bb ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold; color: white">3W</td>
+			 		<td colspan="7" style="background-color: #0072BC ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold; color: white">3W</td>
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #225893 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold; color: white; text-align: center">Sector</td>
-			 		<td colspan="5" style="background-color: #225893 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold; color: white; text-align: center;">Donor - Organization</td
+			 		<td colspan="2" style="background-color: #338EC9 ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold; color: white; text-align: center">Sector</td>
+			 		<td colspan="5" style="background-color: #338EC9 ;font-family: 'Lato', sans-serif; font-size: 16; font-weight: bold; color: white; text-align: center;">Donor - Organization</td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">PROTECTION</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Protection']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">PROTECTION</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Protection']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">ADMIN/LEGAL INFO</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Admin_Legal_Info']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">ADMIN/LEGAL INFO</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Admin_Legal_Info']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">HEALTH</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50;"><?php echo $locations[$locationId]['_3W/Agencies_Health']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">HEALTH</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50;"><?php echo $locations[$locationId]['_3W/Agencies_Health']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">EDUCATION</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Education']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">EDUCATION</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Education']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">FOOD & NUTRITION</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Food_and_Nutrition']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">FOOD & NUTRITION</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Food_and_Nutrition']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">NON-FOOD ITEMS</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_NFI']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">NON-FOOD ITEMS</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_NFI']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">WATER, SANITATION & HYGENE</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Water_Sanitation_and_Hygene']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">WATER, SANITATION & HYGENE</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Water_Sanitation_and_Hygene']?></td
 			 	</tr>
 			 	<tr>
-			 		<td colspan="2" style="background-color: #fdfdfd ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: #225893; text-align: right; center; height: 50">LOCAL COMUNITY SUPPORT</td>
-			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Local_Community_Support']?></td
+			 		<td colspan="2" style="background-color: #CCE3F2;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: right; center; height: 50">LOCAL COMUNITY SUPPORT</td>
+			 		<td colspan="5" style="background-color: #CCCCCC ;font-family: 'Lato', sans-serif; font-size: 14; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Local_Community_Support']?></td
 			 	</tr>
 			 	<tr>
 			 	<!--
 				This is the disclaimer at the end of the end of the page
 			 	-->
-			 		<td colspan="7" style="font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 10; font-weight: bold;">
+			 		<td colspan="7" style="font-family: 'Lato', sans-serif; font-size: 10; font-weight: bold;">
 			 			</br>
 			 			<p>
 			 				This is a living document. UNHCR Serbia cannot vouch for the accuracy of all data provided from various sources. </br>
