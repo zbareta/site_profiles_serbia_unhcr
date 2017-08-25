@@ -1,5 +1,20 @@
+		<!--
+		This application (site_profiles.php) pulls SITE PROFILE data from kobo.unhcr.org, stores it in an array and displays it using charts, maps, traffic lights, plain text etc.
+		For any assistance feel free to contact:
+
+		Zeljko Bareta - IM Associate, Serbia
+
+		work e-mail:	BARETA@unhcr.org
+		private e-mail:	zbareta@gmail.com
+		mobile:			+38163 366 158
+		skype: 			zeljko.bareta
+		-->
+
 <html lang="en">
 	<head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+		<!-- 
+		Getting data from the kobo.unhcr.org API. Enter your USERNAME, PASSWORD and API LINK
+		-->
 		<?php
 		$username = "user";
 		$password = "pass";
@@ -18,10 +33,18 @@
 			echo "Error: Could not connect to KoBo database. Please try again later.";
 		}
 		curl_close($curl); 
+
+		//Storing HTML table columns (traffic lights) in PHP variables that will be displayed based on data pulled from KoBo
+		//the webdings font is used for displaying traffic lights (https://en.wikipedia.org/wiki/Webdings)
 		$traffic_yellow = "<td style='width:10;font-family: webdings; font-size: 10; color: yellow'>g</td>";
 		$traffic_red = "<td style='width:10;font-family: webdings; font-size: 10; color: red'>g</td>";
 		$traffic_green = "<td style='width:10;font-family: webdings; font-size: 10; color: green'>g</td>";
 		$traffic_gray = "<td style='width:10;font-family: webdings; font-size: 10; color: gray'>g</td>";
+		
+		//This creates a function getRow where $field is used to store location name data pulled from KoBo
+		//the loop goes through the entire array of pulled data, compares the location name $field with the $search results POSTed through the HTML form
+		//it first checks if something was POSTed 
+		//when there is a match (location from the form == location name from the array), it returns the row number of the locaiton which will be referrenced to display data only for the selected location
 		$field = 'GENERAL_INFO/Location_Name';
 		$locationId = 0;
 		if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -34,11 +57,11 @@
 				   }
 				   return false;
 				}
+		//this calls the above function (if there was a POST method) and stores the selected locations row number in the $locationId variable
 			$locationId = getRow($locations, 'GENERAL_INFO/Location_Name', $_POST["search"]);
 
 		}
-
-
+		//This checks if elements pulled from the KoBo array are empty (based on the $locationId and element name), and if so, provides them with default data (this is to avoid erorrs in calculatuing/displaying data later... for example, text fields are set to  "No data", 3W data to Blank etc...).
 		if (!isset($locations[$locationId]['_3W/Agencies_Education'])){$locations[$locationId]['_3W/Agencies_Education']="";}
 		if (!isset($locations[$locationId]['_3W/Agencies_Food_and_Nutrition'])){$locations[$locationId]['_3W/Agencies_Food_and_Nutrition']="";}
 		if (!isset($locations[$locationId]['_3W/Agencies_Health'])){$locations[$locationId]['_3W/Agencies_Health']="";}
@@ -161,26 +184,32 @@
 		if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$locations[$locationId]['WASH/On_site_Laundry_or_Outsourced']="No data";}
 
 
-
+		//the $mapName variable will be used when displaying locations on maps. It gets data from the Location_name element of the matrix based on the locadionId
 		$mapName = $locations[$locationId]['GENERAL_INFO/Location_Name'];
 		$mapName = "'" . $mapName . "'";
+
+		//$children and $UASC variables will be used for generating charts
 		$children = $locations[$locationId]['STATISTICS/Number_of_Children'];
 		$UASC = $locations[$locationId]['STATISTICS/Number_of_UASC'];
 
+		//this is to calculate TOTAL CHILDREN - UASC, and get non-UASC children (if the numbers are missing, "No data" is displayed)
 		if(($children != "No data") AND ($UASC != "No data")){
 		$otherChildren = $children - $UASC;}
 		else $otherChildren = "No data";
 
 		?>
-		<link rel="stylesheet" type="text/css" href="includes/style.css">
 		<title>Centre Profiles - Serbia</title>
+		<!--
+		A scrtipt for generating the Gender chart (check for more info: https://developers.google.com/chart/)
+		The numbers of Men, Women and Children are pulled from KoBO (based on the locationID) and passed to the script
+		-->
 	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	    <script type="text/javascript">
 	      google.charts.load('current', {'packages':['corechart']});
 	      google.charts.setOnLoadCallback(drawChart);
-
 	      function drawChart() {
 	        var data = google.visualization.arrayToDataTable([
+
 	          ['Age/Gender', 'Persons'],
 	          ['Men', <?php echo $locations[$locationId]['STATISTICS/Number_of_Men']?>],
 	          ['Women', <?php echo $locations[$locationId]['STATISTICS/Number_of_Women']?>],
@@ -197,6 +226,10 @@
 	        chart.draw(data, options);
 	      }
 	    </script>
+	    <!--
+		A scrtipt for generating the UASC/Other Children chart (check for more info: https://developers.google.com/chart/)
+		The numbers of Children and UASC pulled from KoBo, while the $otherChildren variable is calculated above
+		-->
 	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	    <script type="text/javascript">
 	      google.charts.load("current", {packages:["corechart"]});
@@ -218,6 +251,10 @@
 	        chart.draw(data, options);
 	      }
 	    </script>
+	    <!--
+		A scrtipt for generating the CoO map (check for more info: https://developers.google.com/chart/)
+		CoOs are pulled from KoBo data
+		-->
 	    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	   	 <script type="text/javascript">
 	      google.charts.load('current', {
@@ -244,6 +281,11 @@
 	        chart.draw(data, options);
 	      }
 	    </script>
+	    <!--
+		A scrtipt for generating the location map (check for more info: https://developers.google.com/chart/)
+		The coordinates (Latitude and Longitude) are pulled from KoBo
+		The region code is set to "RS" to display Serbia
+		-->
 	        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
 		    <script type='text/javascript'>
 		     google.charts.load('current', {
@@ -274,6 +316,9 @@
 
 	</head>
 	<body>
+		<!--
+		This is the HTML form (search box) that takes your input which is used to get the $locationIN (explained above... PHP code checking if something was POSTed)
+		-->
 		<div align="center">
 			<table style="font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 14;">
 				<tr>
@@ -281,6 +326,9 @@
 					<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 						<strong>Location:</strong>
 							<select name="search">
+		<!--
+		The location names are hard-coded into the drowdown lists to control displayin new locations added
+		-->
 								<option value="Adasevci" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Adasevci') echo ' selected="selected"';?>>Adasevci TC</option>
 								<option value="Banja Koviljaca" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Banja Koviljaca') echo ' selected="selected"';?>>Banja Koviljaca AC</option>
 							</select>
@@ -289,6 +337,10 @@
 					</td>
 				</tr>
 				<tr>
+		<!---
+		The header logo is pulled from the local unhcr_logo.png file, but it can be refferenced from the web
+		The rest is a HTML table that gets data from the location array pulled from kobo, based on the locationId (obtained by comparing the location name from the array with the search box)
+		-->
 				 	<td colspan="5" style="background-color: #0c73bb ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold; color: white; text-align: left; height: 70"><img src="unhcr_logo.png" alt="UNHCR Serbia" style="height:70;"><div style="text-align: right;"></div></td>
 				 	<td colspan="4" rowspan="9" width="100" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; font-weight: bold; color: gray; text-align: TOP-left; height: 12; vertical-align: top;"><div id="chart_div" style="width: 100%;></div></div></td>
 				</tr>
@@ -344,6 +396,12 @@
 					<td colspan="2" style="background-color: white ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: gray; text-align: left; height: 12"><strong><?php echo $locations[$locationId]['GENERAL_INFO/Distance_from_Public_Services']?>km</strong> AWAY FROM PUBLIC SERVICES</td>
 				</tr>
 				<tr>
+				<!--
+				This is where the traffic lights start
+				The first column, and later the fifth column are used for displaying traffic lights (column info is stored in variables above e.g. $traffick_red)
+				In most fields, it checks the element displayed (for example YES, NO or PARTIALLY), and displays a color based on the results
+				Some fileds (like Occuppacy/Capacity, #toilets, fields that contain dates etc), have different methods of calculation. You can take a look at them individualy
+				-->
 					<?php
 					if ($locations[$locationId]['GENERAL_INFO/Occupancy'] == "No data"){
 						$locations[$locationId]['GENERAL_INFO/Occupancy'] = "0";}
@@ -1451,6 +1509,9 @@
 			 	</tr>
 			 	<tr style="height: 16">
 			 	</tr>
+			 	<!--
+				This is the 3W section. It doesnt use traffic lights, it simply displays the data provided from KoBo in a table
+			 	-->
 			 	<tr>
 			 		<td colspan="7" style="background-color: #0c73bb ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 16; font-weight: bold; color: white">3W</td>
 			 	</tr>
@@ -1491,6 +1552,9 @@
 			 		<td colspan="5" style="background-color: #f0f0f1 ;font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 12; color: black; text-align: center; height: 50"><?php echo $locations[$locationId]['_3W/Agencies_Local_Community_Support']?></td
 			 	</tr>
 			 	<tr>
+			 	<!--
+				This is the disclaimer at the end of the end of the page
+			 	-->
 			 		<td colspan="7" style="font-family: Tahoma, Verdana, Segoe, sans-serif; font-size: 10; font-weight: bold;">
 			 			</br>
 			 			<p>
