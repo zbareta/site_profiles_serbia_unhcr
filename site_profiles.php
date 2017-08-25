@@ -14,11 +14,26 @@
 	<head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 		<!-- 
+		Writes the number "hits" the page recieved into a sepparete counterlog.txt file
+		Upload an empty counterlog.txt file to your host, next to this file
+		-->
+		<?php
+		$fp = fopen("counterlog.txt", "r"); 
+		$count = fread($fp, 1024); 
+		fclose($fp); 
+		$count = $count + 1; 
+		//echo "<p>Page views:" . $count . "</p>"; 
+		$fp = fopen("counterlog.txt", "w"); 
+		fwrite($fp, $count); 
+		fclose($fp); 
+		?> 
+
+		<!-- 
 		Getting data from the kobo.unhcr.org API. Enter your USERNAME, PASSWORD and API LINK
 		-->
 		<?php
-		$username = "bareta";
-		$password = "m1nstr3l";
+		$username = "user";
+		$password = "pass";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
