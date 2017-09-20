@@ -6,3 +6,5 @@ site_profiles_serbia_unhcr.xls - KoBo form used for collecting data and accessed
 counterlog.txt - empty file used to store the nuber of hits to the page
 
 unhcr_logo.png - the logo shown in site_profiles.php
+
+Center Profiling Standards and Markers June 2017.pdf - standards userd for generating traffic lights
