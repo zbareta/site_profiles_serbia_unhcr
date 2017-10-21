@@ -1,5 +1,5 @@
 		<!--
-		This application (site_profiles.php) pulls SITE PROFILE data from kobo.unhcr.org, stores it in an array and displays it using charts, maps, traffic lights, plain text etc.
+		This application pulls SITE PROFILE data from kobo.unhcr.org, stores it in an array and displays it using charts, maps, traffic lights, plain text etc.
 		For any assistance feel free to contact:
 
 		Zeljko Bareta - IM Associate, Belgrade, Serbia
