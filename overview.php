@@ -38,13 +38,13 @@
 		Getting data from the kobo.unhcr.org API. Enter your USERNAME, PASSWORD and API LINK
 		-->
 		<?php
-		$username = "username";
-		$password = "password";
+		$username = "unhcr_srb";
+		$password = "UNUNUN@123";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curl, CURLOPT_URL, 'APILink');
+		curl_setopt($curl, CURLOPT_URL, 'https://kobocat.unhcr.org/bareta/forms/apo6vzP9sHTqa5eYS7cL7g/api');
 		curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		$resp = curl_exec($curl);
@@ -123,11 +123,7 @@
 		$Principovac_popup =  "<strong>" . $locations[13]['GENERAL_INFO/Location_Name'] . " " . strtoupper($locations[13]['GENERAL_INFO/Type']) . "</strong>" . "</br>" . "<strong>" . "Occupancy: " . "</strong>" . $locations[13]['GENERAL_INFO/Occupancy'] . "/" . $locations[13]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p'] . "</br>" . "<strong>" . "E-mail: ". "</strong>" . $locations[13]['GENERAL_INFO/Centre_e_mail_Address'] . "</br>" . $Principovac_link;
 		$Principovac_popup = "'" . $Principovac_popup . "'";
 
-		$SjenicaB_link = '<a href="site_profiles.php?search=Sjenica (Berlin)&submit=Select">Site Profile</a>';
-		$SjenicaB_popup =  "<strong>" . $locations[7]['GENERAL_INFO/Location_Name'] . " " . strtoupper($locations[7]['GENERAL_INFO/Type']) . "</strong>" . "</br>" . "<strong>" . "Occupancy: " . "</strong>" . $locations[7]['GENERAL_INFO/Occupancy'] . "/" . $locations[7]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p'] . "</br>" . "<strong>" . "E-mail: ". "</strong>" . $locations[7]['GENERAL_INFO/Centre_e_mail_Address'] . "</br>" . $SjenicaB_link;
-		$SjenicaB_popup = "'" . $SjenicaB_popup . "'";
-
-		$SjenicaV_link = '<a href="site_profiles.php?search=Sjenica (Vesna)&submit=Select">Site Profile</a>';
+		$SjenicaV_link = '<a href="site_profiles.php?search=Sjenica&submit=Select">Site Profile</a>';
 		$SjenicaV_popup =  "<strong>" . $locations[8]['GENERAL_INFO/Location_Name'] . " " . strtoupper($locations[8]['GENERAL_INFO/Type']) . "</strong>" . "</br>" . "<strong>" . "Occupancy: " . "</strong>" . $locations[8]['GENERAL_INFO/Occupancy'] . "/" . $locations[8]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p'] . "</br>" . "<strong>" . "E-mail: ". "</strong>" . $locations[8]['GENERAL_INFO/Centre_e_mail_Address'] . "</br>" . $SjenicaV_link;
 		$SjenicaV_popup = "'" . $SjenicaV_popup . "'";
 
@@ -147,6 +143,10 @@
 		$Vranje_popup =  "<strong>" . $locations[11]['GENERAL_INFO/Location_Name'] . " " . strtoupper($locations[11]['GENERAL_INFO/Type']) . "</strong>" . "</br>" . "<strong>" . "Occupancy: " . "</strong>" . $locations[11]['GENERAL_INFO/Occupancy'] . "/" . $locations[11]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p'] . "</br>" . "<strong>" . "E-mail: ". "</strong>" . $locations[11]['GENERAL_INFO/Centre_e_mail_Address'] . "</br>" . $Vranje_link;
 		$Vranje_popup = "'" . $Vranje_popup . "'";
 
+		$Sid_link = '<a href="site_profiles.php?search=Sid&submit=Select">Site Profile</a>';
+		$Sid_popup =  "<strong>" . $locations[19]['GENERAL_INFO/Location_Name'] . " " . strtoupper($locations[19]['GENERAL_INFO/Type']) . "</strong>" . "</br>" . "<strong>" . "Occupancy: " . "</strong>" . $locations[19]['GENERAL_INFO/Occupancy'] . "/" . $locations[19]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p'] . "</br>" . "<strong>" . "E-mail: ". "</strong>" . $locations[19]['GENERAL_INFO/Centre_e_mail_Address'] . "</br>" . $Sid_link;
+		$Sid_popup = "'" . $Sid_popup . "'";
+
 		//this loop goes trough all locations and sums up the numbers for the charts
 		foreach($locations as $location){
 		$men_total += $location['STATISTICS/Number_of_Men'];
@@ -165,7 +165,7 @@
 		?>	
 
 
-		<title>Centre Profiles - Serbia</title>
+		<title>CENTRE PROFILING: The Republic of Serbia</title>
 		<!--
 		A scrtipt for generating the Gender chart (check for more info: https://developers.google.com/chart/)
 		The numbers of Men, Women and Children are pulled from KoBO (based on the locationID) and passed to the script
@@ -268,10 +268,14 @@
 						<div id="map" style="width: 500px; height: 600px"></div>
 		 				<script>
 		 					//This draws up the map using coordinates from KoBo and popust generated before
-			  				var map = L.map('map').setView([44.153358, 20.843502], 7);
-							L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			    				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							}).addTo(map);
+		 						var map = L.map('map').setView([44.153358, 20.843502], 7);
+								var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+							
+								}).addTo(map);
+
+
+						
+
 							L.marker([<?php echo $locations[0]['GENERAL_INFO/Latitude']?>, <?php echo $locations[0]['GENERAL_INFO/Longitude']?>]).addTo(map)
 			    			.bindPopup(<?php echo $Adasevci_popup ?>) 
 			    			L.marker([<?php echo $locations[1]['GENERAL_INFO/Latitude']?>, <?php echo $locations[1]['GENERAL_INFO/Longitude']?>]).addTo(map)
@@ -298,8 +302,6 @@
 			    			.bindPopup(<?php echo $Presevo_popup ?>)
 			    			L.marker([<?php echo $locations[13]['GENERAL_INFO/Latitude']?>, <?php echo $locations[13]['GENERAL_INFO/Longitude']?>]).addTo(map)
 			    			.bindPopup(<?php echo $Principovac_popup ?>)
-			    			L.marker([<?php echo $locations[7]['GENERAL_INFO/Latitude']?>, <?php echo $locations[7]['GENERAL_INFO/Longitude']?>]).addTo(map)
-			    			.bindPopup(<?php echo $SjenicaB_popup ?>)
 			    			L.marker([<?php echo $locations[8]['GENERAL_INFO/Latitude']?>, <?php echo $locations[8]['GENERAL_INFO/Longitude']?>]).addTo(map)
 			    			.bindPopup(<?php echo $SjenicaV_popup ?>)
 			    			L.marker([<?php echo $locations[9]['GENERAL_INFO/Latitude']?>, <?php echo $locations[9]['GENERAL_INFO/Longitude']?>]).addTo(map)
@@ -310,6 +312,8 @@
 			    			.bindPopup(<?php echo $Tutin_popup ?>)
 			    			L.marker([<?php echo $locations[11]['GENERAL_INFO/Latitude']?>, <?php echo $locations[11]['GENERAL_INFO/Longitude']?>]).addTo(map)
 			    			.bindPopup(<?php echo $Vranje_popup ?>)
+			    			L.marker([<?php echo $locations[19]['GENERAL_INFO/Latitude']?>, <?php echo $locations[19]['GENERAL_INFO/Longitude']?>]).addTo(map)
+			    			.bindPopup(<?php echo $Sid_popup ?>)
   							</script>
   					</td>
   					<!--This generates the charts-->
@@ -332,7 +336,7 @@
 			 		<td colspan="4" style="font-family: 'Lato', sans-serif; font-size: 10; font-weight: bold;">
 			 			</br>
 			 			<p> *Data as of <strong><?php echo $locations[0]['GENERAL_INFO/Update_Month_Year']?></strong></br></br>
-			 				This is a joint assessment. UNHCR Serbia cannot vouch for the accuracy of all data provided from various sources. For any comments or suggestins, feel free to <a href="http://www.unhcr.rs/opste/vesti-misljenja/kontakti.html">contact us</a>.</br></br>
+			 				UNHCR Serbia cannot vouch for the accuracy of all data provided from various sources. For any comments or suggestins, feel free to <a href="http://www.unhcr.rs/opste/vesti-misljenja/kontakti.html">contact us</a>.</br></br>
 			 				This assessment was conducted with reference to national legislation of Serbia, EU Reception Directives, EASO Guidelines, Sphere and UNHCR standards.</br></br>
 			 				You can also download the <a href="https://data2.unhcr.org/en/documents/details/55034">PDF version</a> from the <a href="http://data2.unhcr.org/en/situations">Operational Data Portal</a>.
 			 			</br></br>

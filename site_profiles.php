@@ -13,6 +13,12 @@
 <html lang="en">
 	<head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+	integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+	crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+  	integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+  	crossorigin=""></script>
 		<!-- 
 		Writes the number "hits" the page recieved into a sepparete counterlog.txt file
 		Upload an empty counterlog.txt file to your host, next to this file
@@ -32,13 +38,13 @@
 		Getting data from the kobo.unhcr.org API. Enter your USERNAME, PASSWORD and API LINK
 		-->
 		<?php
-		$username = "username";
-		$password = "password";
+		$username = "unhcr_srb";
+		$password = "UNUNUN@123";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curl, CURLOPT_URL, 'APILink');
+		curl_setopt($curl, CURLOPT_URL, 'https://kobocat.unhcr.org/bareta/forms/apo6vzP9sHTqa5eYS7cL7g/api');
 		curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		$resp = curl_exec($curl);
@@ -118,7 +124,7 @@ if (!isset($locations[$locationId]['COORDINATION_MANAGEMENT/Office_Space_for_Car
 if (!isset($locations[$locationId]['COORDINATION_MANAGEMENT/Referral_System_that_Ensures_Follow_up'])){$locations[$locationId]['COORDINATION_MANAGEMENT/Referral_System_that_Ensures_Follow_up']="No data";}
 if (!isset($locations[$locationId]['COORDINATION_MANAGEMENT/Site_specific_Coordination_Mechanism'])){$locations[$locationId]['COORDINATION_MANAGEMENT/Site_specific_Coordination_Mechanism']="No data";}
 if (!isset($locations[$locationId]['EDUCATION_LEISURE/Area_for_Educational_upational_Activities'])){$locations[$locationId]['EDUCATION_LEISURE/Area_for_Educational_upational_Activities']="No data";}
-if (!isset($locations[$locationId]['EDUCATION_LEISURE/School_Start_Allowance_In_kind'])){$locations[$locationId]['EDUCATION_LEISURE/School_Start_Allowance_In_kind']="No data";}
+if (!isset($locations[$locationId]['EDUCATION_LEISURE/School_Start_Allowan_e_In_kind_Assistance'])){$locations[$locationId]['EDUCATION_LEISURE/School_Start_Allowan_e_In_kind_Assistance']="No data";}
 if (!isset($locations[$locationId]['EDUCATION_LEISURE/Area_for_Practicing_Religion'])){$locations[$locationId]['EDUCATION_LEISURE/Area_for_Practicing_Religion']="No data";}
 if (!isset($locations[$locationId]['EDUCATION_LEISURE/Area_for_Recreational_Activities'])){$locations[$locationId]['EDUCATION_LEISURE/Area_for_Recreational_Activities']="No data";}
 if (!isset($locations[$locationId]['EDUCATION_LEISURE/Children_Attending_School'])){$locations[$locationId]['EDUCATION_LEISURE/Children_Attending_School']="No data";}
@@ -270,6 +276,7 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 	        chart.draw(data, options);
 	      }
 	    </script>
+	    <!--This generates theh map showing the selected location-->
 	        <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
 		    <script type='text/javascript'>
 		     google.charts.load('current', {
@@ -337,6 +344,7 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 
 	</head>
 	<body>
+
 		<!--
 		This is the HTML form (search box) that takes your input which is used to get the $locationIN (explained above... PHP code checking if something was Submitted)
 		-->
@@ -353,25 +361,25 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 		<!--
 		The location names are hard-coded into the drowdown lists to control displaying new locations added
 		-->
-								<option value="Adasevci" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Adasevci') echo ' selected="selected"';?>>Adasevci TC</option>
+								<option value="Adasevci" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Adasevci') echo ' selected="selected"';?>>Adasevci RTC</option>
 								<option value="Banja Koviljaca" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Banja Koviljaca') echo ' selected="selected"';?>>Banja Koviljaca AC</option>
 								<option value="Bogovadja" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Bogovadja') echo ' selected="selected"';?>>Bogovadja AC</option>
-								<option value="Bosilegrad" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Bosilegrad') echo ' selected="selected"';?>>Bosilegrad RC</option>
-								<option value="Bujanovac" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Bujanovac') echo ' selected="selected"';?>>Bujanovac RC</option>
-								<option value="Dimitrovgrad" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Dimitrovgrad') echo ' selected="selected"';?>>Dimitrovgrad RC</option>
-								<option value="Divljana" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Divljana') echo ' selected="selected"';?>>Divljana RC</option>
-								<option value="Kikinda" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Kikinda') echo ' selected="selected"';?>>Kikinda TC</option>
+								<option value="Bosilegrad" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Bosilegrad') echo ' selected="selected"';?>>Bosilegrad RTC</option>
+								<option value="Bujanovac" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Bujanovac') echo ' selected="selected"';?>>Bujanovac RTC</option>
+								<option value="Dimitrovgrad" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Dimitrovgrad') echo ' selected="selected"';?>>Dimitrovgrad RTC</option>
+								<option value="Divljana" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Divljana') echo ' selected="selected"';?>>Divljana RTC</option>
+								<option value="Kikinda" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Kikinda') echo ' selected="selected"';?>>Kikinda RTC</option>
 								<option value="Krnjaca" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Krnjaca') echo ' selected="selected"';?>>Krnjaca AC</option>
-								<option value="Obrenovac" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Obrenovac') echo ' selected="selected"';?>>Obrenovac TC</option>
-								<option value="Pirot" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Pirot') echo ' selected="selected"';?>>Pirot RC</option>
-								<option value="Presevo" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Presevo') echo ' selected="selected"';?>>Presevo RC</option>
-								<option value="Principovac" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Principovac') echo ' selected="selected"';?>>Principovac TC</option>
-								<option value="Sjenica (Berlin)" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Sjenica (Berlin)') echo ' selected="selected"';?>>Sjenica (Berlin) AC</option>
-								<option value="Sjenica (Vesna)" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Sjenica (Vesna)') echo ' selected="selected"';?>>Sjenica (Vesna) AC</option>			
-								<option value="Sombor" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Sombor') echo ' selected="selected"';?>>Sombor TC</option>			
-								<option value="Subotica" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Subotica') echo ' selected="selected"';?>>Subotica TC</option>			
+								<option value="Obrenovac" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Obrenovac') echo ' selected="selected"';?>>Obrenovac RTC</option>
+								<option value="Pirot" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Pirot') echo ' selected="selected"';?>>Pirot RTC</option>
+								<option value="Presevo" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Presevo') echo ' selected="selected"';?>>Presevo RTC</option>
+								<option value="Principovac" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Principovac') echo ' selected="selected"';?>>Principovac RTC</option>
+								<option value="Sid" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Sid') echo ' selected="selected"';?>>Sid RTC</option>
+								<option value="Sjenica" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Sjenica') echo ' selected="selected"';?>>Sjenica AC</option>			
+								<option value="Sombor" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Sombor') echo ' selected="selected"';?>>Sombor RTC</option>			
+								<option value="Subotica" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Subotica') echo ' selected="selected"';?>>Subotica RTC</option>			
 								<option value="Tutin" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Tutin') echo ' selected="selected"';?>>Tutin AC</option>
-								<option value="Vranje" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Vranje') echo ' selected="selected"';?>>Vranje RC</option>
+								<option value="Vranje" <?php if (isset($locations[$locationId]['GENERAL_INFO/Location_Name']) && $locations[$locationId]['GENERAL_INFO/Location_Name'] == 'Vranje') echo ' selected="selected"';?>>Vranje RTC</option>
 							</select>
 							<input type="submit" name="submit" value="Select" style="background-color: #0072BC; color: white; border: 0"></div>
 						</form>
@@ -383,12 +391,21 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 		The rest is a HTML table that gets data from the location array pulled from kobo, based on the locationId (obtained by comparing the location name from the array with the search box)
 		-->
 				 	<td colspan="5" style="background-color: #0072BC ;font-family: 'Lato', sans-serif; font-size: 26; color: white; text-align: left; height: 70"><strong>CENTRE PROFILING</strong></br><span style="font-size: 20">THE REPUBLIC OF SERBIA</span><div style="text-align: right;"></div></td>
-				 	<td colspan="4" rowspan="9" width="100" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: gray; text-align: TOP-left; height: 14; vertical-align: top;"><div id="chart_div" style="width: 100%;></div></div></td>
+				 	<td colspan="2" rowspan="9" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: gray; text-align: TOP-left; height: 14; vertical-align: top;">
+				 		<div id="map" style="width: 400px; height: 300px"></div>
+						<script>
+							//This draws up the map using coordinates from KoBo and popust generated before
+								var map = L.map('map').setView([44.153358, 20.843502], 6);
+								var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+								}).addTo(map);
+											
+								L.marker([<?php echo $locations[$locationId]['GENERAL_INFO/Latitude']?>, <?php echo $locations[$locationId]['GENERAL_INFO/Longitude']?>]).addTo(map)	
+						</script></div></td>
 				</tr>
 				<tr style="height: 16">
 				</tr> 
 				<tr>
-					<td colspan="5" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 30; font-weight: bold; color: black; text-align: left; height: 30"><?php echo strtoupper($locations[$locationId]['GENERAL_INFO/Location_Name'] . " " . $locations[$locationId]['GENERAL_INFO/Type'])?></td>
+					<td colspan="5" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 30; font-weight: bold; color: black; text-align: left; height: 30"><?php echo strtoupper($locations[$locationId]['GENERAL_INFO/Location_Name'] . " " . str_replace("rc", "RTC", $locations[$locationId]['GENERAL_INFO/Type']))?></td>
 				</tr>
 				<tr>
 					<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 14; font-weight: bold; color: black; text-align: left; height: 14">Focal Point:</td>
@@ -457,7 +474,7 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 					else {echo $traffic_red;}
 					?></td>
 			 		<td colspan="4" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 20; font-weight: bold;">OCCUPANCY/CAPACITY:</td>
-			 		<td colspan="2" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 20; font-weight: bold; text-align: right">
+			 		<td colspan="3" style="background-color: white ;font-family: 'Lato', sans-serif; font-size: 20; font-weight: bold; text-align: right">
 			 		<?php
 			 		echo $locations[$locationId]['GENERAL_INFO/Occupancy'];?>/<?php
 			 		echo $locations[$locationId]['SHELTER/Number_of_Places_per_4_5_5_5_m2_p']
@@ -1107,7 +1124,7 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 			 	</tr>
 			 	<tr>
 				    <?php
-				    	$q_answer = $locations[$locationId]['EDUCATION_LEISURE/School_Start_Allowance_In_kind'];
+				    	$q_answer = $locations[$locationId]['EDUCATION_LEISURE/School_Start_Allowan_e_In_kind_Assistance'];
 					    if ($q_answer == "partially"){echo $traffic_yellow;}
 					    elseif ($q_answer == "yes"){echo $traffic_green;}
 					    elseif ($q_answer == "no"){echo $traffic_red;}
@@ -1603,7 +1620,7 @@ if (!isset($locations[$locationId]['WASH/On_site_Laundry_or_Outsourced'])){$loca
 			 		<td colspan="7" style="font-family: 'Lato', sans-serif; font-size: 10; font-weight: bold;">
 			 			</br>
 			 			<p> *Data as of <strong><?php echo $locations[0]['GENERAL_INFO/Update_Month_Year']?></strong></br></br>
-			 				This is a joint assessment. UNHCR Serbia cannot vouch for the accuracy of all data provided from various sources. For any comments or suggestins, feel free to <a href="http://www.unhcr.rs/opste/vesti-misljenja/kontakti.html">contact us</a>.</br></br>
+			 				UNHCR Serbia cannot vouch for the accuracy of all data provided from various sources. For any comments or suggestins, feel free to <a href="http://www.unhcr.rs/opste/vesti-misljenja/kontakti.html">contact us</a>.</br></br>
 			 				This assessment was conducted with reference to national legislation of Serbia, EU Reception Directives, EASO Guidelines, Sphere and UNHCR standards.</br></br>
 			 				You can also download the <a href="https://data2.unhcr.org/en/documents/details/55034">PDF version</a> from the <a href="http://data2.unhcr.org/en/situations">Operational Data Portal</a>.
 			 			</br></br>
