@@ -38,8 +38,8 @@
 		Getting data from the kobo.unhcr.org API. Enter your USERNAME, PASSWORD and API LINK
 		-->
 		<?php
-		$username = "unhcr_srb";
-		$password = "UNUNUN@123";
+		$username = "xxxxx";
+		$password = "xxxxx";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
